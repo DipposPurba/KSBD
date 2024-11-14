@@ -128,6 +128,8 @@
         <a href="#" onclick="showSection('matakuliah_display')">Data Mata Kuliah</a>
         <a href="#" onclick="showSection('krsnil_display')">Data KRS Nilai</a>
         <a href="#" onclick="showSection('dosen_display')">Data Dosen</a>
+        <!-- Link untuk logout -->
+        <a href="logout.php">Logout</a>
     </div>
 
     <div class="main-content">
@@ -156,6 +158,7 @@
                 <button type="submit">Simpan</button>
             </form>
         </div>
+       
 
         <!-- Form Input Data Mata Kuliah -->
         <div id="matakuliah_input" class="form-section">
