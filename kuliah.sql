@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 23, 2024 at 09:59 AM
+-- Generation Time: Dec 03, 2024 at 01:24 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -20,6 +20,19 @@ SET time_zone = "+00:00";
 --
 -- Database: `kuliah`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `dosen`
+--
+
+CREATE TABLE `dosen` (
+  `NIDN` varchar(20) NOT NULL,
+  `Nama` varchar(45) NOT NULL,
+  `Alamat` varchar(30) NOT NULL,
+  `NoHP` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -68,11 +81,11 @@ INSERT INTO `krsnil` (`tahun_ajaran`, `semester`, `npm`, `kode_mk`, `nsikap`, `n
 ('2024/2025', 'Genap', 220840096, 14, '79', '89', '78', '67'),
 ('2024/2025', 'Genap', 220840099, 1, '87', '67', '56', '87'),
 ('2024/2025', 'Genap', 220840100, 3, '78', '56', '87', '95'),
-('2024/2025', 'Genap', 220840102, 4, '', '', '', ''),
-('2024/2025', 'Genap', 220840109, 6, '', '', '', ''),
-('2024/2025', 'Genap', 220840114, 8, '', '', '', ''),
-('2024/2025', 'Genap', 220840126, 10, '', '', '', ''),
-('2024/2025', 'Genap', 228400106, 11, '', '', '', '');
+('2024/2025', 'Genap', 220840102, 4, '56', '67', '45', '78'),
+('2024/2025', 'Genap', 220840109, 6, '75', '56', '57', '99'),
+('2024/2025', 'Genap', 220840114, 8, '65', '76', '87', '56'),
+('2024/2025', 'Genap', 220840126, 10, '78', '56', '89', '66'),
+('2024/2025', 'Genap', 228400106, 11, '65', '57', '87', '55');
 
 -- --------------------------------------------------------
 
@@ -144,6 +157,26 @@ INSERT INTO `tblmatakuliah` (`kode_mk`, `nama_mk`, `sks`, `prasyarat`) VALUES
 (14, 'Pemrograman Web', '3', 'wajib'),
 (15, 'Keamanan Basis Data', '3', 'Peminatan');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `role` enum('mahasiswa','dosen','','') NOT NULL,
+  `username` varchar(50) NOT NULL,
+  `password` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`role`, `username`, `password`) VALUES
+('mahasiswa', 'mahasiswa1', '$2y$10$E/La3DHT/EnEz7O10M8vIuF8zu35eCa9rWXnCkSGLm7qWaSnaXOS2'),
+('dosen', 'dosen1', '$2y$10$mE8SvOm3vNpL2RmK.kJqsuHkAPDubP8stZfWWPMqnkfSHbgnicYni');
+
 --
 -- Indexes for dumped tables
 --
@@ -167,6 +200,13 @@ ALTER TABLE `tblmahasiswa`
 --
 ALTER TABLE `tblmatakuliah`
   ADD PRIMARY KEY (`kode_mk`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`username`,`password`),
+  ADD UNIQUE KEY `role` (`role`);
 
 --
 -- Constraints for dumped tables
