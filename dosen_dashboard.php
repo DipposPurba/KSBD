@@ -252,7 +252,7 @@
             </form>
         </div>
 
-        <!-- Display Data Mahasiswa -->
+                <!-- Display Data Mahasiswa -->
         <div id="mahasiswa_display" class="form-section">
             <h2>Data Mahasiswa</h2>
             <table border="1">
@@ -269,17 +269,33 @@
                 <tbody>
                     <?php
                     include 'config.php';
+
+                    // Tentukan kunci dan metode dekripsi
+                    $encryption_key = 'kunci_enkripsi_rahasia'; // Ganti sesuai kunci yang digunakan saat enkripsi
+                    $encryption_iv = '1234567891011121'; // Harus sama dengan saat enkripsi
+                    $ciphering = "AES-128-CTR";
+
+                    // Ambil data dari database
                     $result = $conn->query("SELECT * FROM tblmahasiswa");
                     if ($result->num_rows > 0) {
                         while ($row = $result->fetch_assoc()) {
+                            // Dekripsi data sebelum ditampilkan
+                            $npm_plain = openssl_decrypt($row['npm'], $ciphering, $encryption_key, 0, $encryption_iv);
+                            $nama_plain = openssl_decrypt($row['nama'], $ciphering, $encryption_key, 0, $encryption_iv);
+                            $alamat_plain = openssl_decrypt($row['alamat'], $ciphering, $encryption_key, 0, $encryption_iv);
+                            $tempat_lahir_plain = openssl_decrypt($row['tempat_lahir'], $ciphering, $encryption_key, 0, $encryption_iv);
+                            $tanggal_lahir_plain = openssl_decrypt($row['tanggal_lahir'], $ciphering, $encryption_key, 0, $encryption_iv);
+                            $asal_sma_plain = openssl_decrypt($row['asal_sma'], $ciphering, $encryption_key, 0, $encryption_iv);
+
+                            // Tampilkan data dalam bentuk plaintext
                             echo "<tr>
-                                    <td>{$row['npm']}</td>
-                                    <td>{$row['nama']}</td>
-                                    <td>{$row['alamat']}</td>
-                                    <td>{$row['tempat_lahir']}</td>
-                                    <td>{$row['tanggal_lahir']}</td>
-                                    <td>{$row['asal_sma']}</td>
-                                  </tr>";
+                                    <td>{$npm_plain}</td>
+                                    <td>{$nama_plain}</td>
+                                    <td>{$alamat_plain}</td>
+                                    <td>{$tempat_lahir_plain}</td>
+                                    <td>{$tanggal_lahir_plain}</td>
+                                    <td>{$asal_sma_plain}</td>
+                                </tr>";
                         }
                     } else {
                         echo "<tr><td colspan='6'>Tidak ada data tersedia.</td></tr>";
@@ -290,7 +306,8 @@
         </div>
 
 
-        <!-- Display Data Mata Kuliah -->
+
+                <!-- Display Data Mata Kuliah -->
         <div id="matakuliah_display" class="form-section">
             <h2>Data Mata Kuliah</h2>
             <table>
@@ -304,15 +321,29 @@
                 </thead>
                 <tbody>
                     <?php
+                    include 'config.php'; // Sertakan konfigurasi database
+
+                    // Tentukan kunci dan metode enkripsi
+                    $encryption_key = 'kunci_enkripsi_rahasia'; // Ganti dengan kunci yang aman
+                    $encryption_iv = '1234567891011121'; // Harus 16 byte untuk AES-128-CTR
+                    $ciphering = "AES-128-CTR";
+
+                    // Ambil data dari database
                     $result = $conn->query("SELECT * FROM tblmatakuliah");
                     if ($result->num_rows > 0) {
                         while ($row = $result->fetch_assoc()) {
+                            // Dekripsi data
+                            $kode_mk = openssl_decrypt($row['kode_mk'], $ciphering, $encryption_key, 0, $encryption_iv);
+                            $nama_mk = openssl_decrypt($row['nama_mk'], $ciphering, $encryption_key, 0, $encryption_iv);
+                            $sks = openssl_decrypt($row['sks'], $ciphering, $encryption_key, 0, $encryption_iv);
+                            $prasyarat = openssl_decrypt($row['prasyarat'], $ciphering, $encryption_key, 0, $encryption_iv);
+
                             echo "<tr>
-                                    <td>{$row['kode_mk']}</td>
-                                    <td>{$row['nama_mk']}</td>
-                                    <td>{$row['sks']}</td>
-                                    <td>{$row['prasyarat']}</td>
-                                  </tr>";
+                                    <td>{$kode_mk}</td>
+                                    <td>{$nama_mk}</td>
+                                    <td>{$sks}</td>
+                                    <td>{$prasyarat}</td>
+                                </tr>";
                         }
                     } else {
                         echo "<tr><td colspan='4'>Tidak ada data tersedia.</td></tr>";
@@ -321,6 +352,7 @@
                 </tbody>
             </table>
         </div>
+
 
         <!-- Display Data KRS Nilai -->
         <div id="krsnil_display" class="form-section">
@@ -340,19 +372,37 @@
                 </thead>
                 <tbody>
                     <?php
+                    include 'config.php'; // Sertakan konfigurasi database
+
+                    // Tentukan kunci dan metode enkripsi
+                    $encryption_key = 'kunci_enkripsi_rahasia'; // Ganti dengan kunci yang aman
+                    $encryption_iv = '1234567891011121'; // Harus 16 byte untuk AES-128-CTR
+                    $ciphering = "AES-128-CTR";
+
+                    // Ambil data dari database
                     $result = $conn->query("SELECT * FROM krsnil");
                     if ($result->num_rows > 0) {
                         while ($row = $result->fetch_assoc()) {
+                            // Dekripsi data
+                            $tahun_ajaran = openssl_decrypt($row['tahun_ajaran'], $ciphering, $encryption_key, 0, $encryption_iv);
+                            $semester = openssl_decrypt($row['semester'], $ciphering, $encryption_key, 0, $encryption_iv);
+                            $npm = openssl_decrypt($row['npm'], $ciphering, $encryption_key, 0, $encryption_iv);
+                            $kode_mk = openssl_decrypt($row['kode_mk'], $ciphering, $encryption_key, 0, $encryption_iv);
+                            $nsikap = openssl_decrypt($row['nsikap'], $ciphering, $encryption_key, 0, $encryption_iv);
+                            $ntugas = openssl_decrypt($row['ntugas'], $ciphering, $encryption_key, 0, $encryption_iv);
+                            $nuts = openssl_decrypt($row['nuts'], $ciphering, $encryption_key, 0, $encryption_iv);
+                            $nuas = openssl_decrypt($row['nuas'], $ciphering, $encryption_key, 0, $encryption_iv);
+
                             echo "<tr>
-                                    <td>{$row['tahun_ajaran']}</td>
-                                    <td>{$row['semester']}</td>
-                                    <td>{$row['npm']}</td>
-                                    <td>{$row['kode_mk']}</td>
-                                    <td>{$row['nsikap']}</td>
-                                    <td>{$row['ntugas']}</td>
-                                    <td>{$row['nuts']}</td>
-                                    <td>{$row['nuas']}</td>
-                                  </tr>";
+                                    <td>{$tahun_ajaran}</td>
+                                    <td>{$semester}</td>
+                                    <td>{$npm}</td>
+                                    <td>{$kode_mk}</td>
+                                    <td>{$nsikap}</td>
+                                    <td>{$ntugas}</td>
+                                    <td>{$nuts}</td>
+                                    <td>{$nuas}</td>
+                                </tr>";
                         }
                     } else {
                         echo "<tr><td colspan='8'>Tidak ada data tersedia.</td></tr>";
@@ -362,29 +412,44 @@
             </table>
         </div>
 
-        <!-- Display Data Dosen-->
+
+            <!-- Display Data Dosen -->
         <div id="dosen_display" class="form-section">
             <h2>Data Dosen</h2>
             <table>
                 <thead>
                     <tr>
                         <th>NIDN</th>
-                        <th>Nama MK</th>
+                        <th>Nama</th>
                         <th>Alamat</th>
                         <th>No Hp</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php
+                    include 'config.php'; // Sertakan konfigurasi database
+
+                    // Tentukan kunci dan metode enkripsi
+                    $encryption_key = 'kunci_enkripsi_rahasia'; // Ganti dengan kunci yang aman
+                    $encryption_iv = '1234567891011121'; // Harus 16 byte untuk AES-128-CTR
+                    $ciphering = "AES-128-CTR";
+
+                    // Ambil data dari database
                     $result = $conn->query("SELECT * FROM dosen");
                     if ($result->num_rows > 0) {
                         while ($row = $result->fetch_assoc()) {
+                            // Dekripsi data
+                            $NIDN = openssl_decrypt($row['NIDN'], $ciphering, $encryption_key, 0, $encryption_iv);
+                            $NAMA = openssl_decrypt($row['Nama'], $ciphering, $encryption_key, 0, $encryption_iv);
+                            $ALAMAT = openssl_decrypt($row['Alamat'], $ciphering, $encryption_key, 0, $encryption_iv);
+                            $NOHP = openssl_decrypt($row['noHP'], $ciphering, $encryption_key, 0, $encryption_iv);
+
                             echo "<tr>
-                                    <td>{$row['NIDN']}</td>
-                                    <td>{$row['nama']}</td>
-                                    <td>{$row['Alamat']}</td>
-                                    <td>{$row['NoHP']}</td>
-                                  </tr>";
+                                    <td>{$NIDN}</td>
+                                    <td>{$NAMA}</td>
+                                    <td>{$ALAMAT}</td>
+                                    <td>{$NOHP}</td>
+                                </tr>";
                         }
                     } else {
                         echo "<tr><td colspan='4'>Tidak ada data tersedia.</td></tr>";
@@ -393,6 +458,7 @@
                 </tbody>
             </table>
         </div>
+
     </div>
 </body>
 </html>

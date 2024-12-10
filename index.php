@@ -125,7 +125,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         <?php if (isset($error)) { echo "<p>$error</p>"; } ?>
 
-        <form action="login.php" method="POST">
+        <form action="index.php" method="POST">
             <label for="username">Username:</label>
             <input type="text" name="username" id="username" required>
 
