@@ -9,22 +9,21 @@ $ciphering = "AES-128-CTR";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Ambil data dari input form
-    $NIDN = $_POST['NIDN'];
+    $NIDN = $_POST['NIDN']; // Tidak dienkripsi
     $NAMA = $_POST['Nama'];
     $ALAMAT = $_POST['Alamat'];
-    $NOHP = $_POST['noHP'];
+    $NOHP = $_POST['NoHP'];
 
-    // Encrypt data sebelum disimpan
-    $NIDN_encrypted = openssl_encrypt($NIDN, $ciphering, $encryption_key, 0, $encryption_iv);
+    // Encrypt data sebelum disimpan (kecuali NIDN)
     $NAMA_encrypted = openssl_encrypt($NAMA, $ciphering, $encryption_key, 0, $encryption_iv);
     $ALAMAT_encrypted = openssl_encrypt($ALAMAT, $ciphering, $encryption_key, 0, $encryption_iv);
     $NOHP_encrypted = openssl_encrypt($NOHP, $ciphering, $encryption_key, 0, $encryption_iv);
 
-    // Query untuk menyimpan data terenkripsi ke database
-    $sql = "INSERT INTO dosen (NIDN, Nama, Alamat, noHP) VALUES ('$NIDN_encrypted', '$NAMA_encrypted', '$ALAMAT_encrypted', '$NOHP_encrypted')";
+    // Query untuk menyimpan data ke database
+    $sql = "INSERT INTO dosen (NIDN, Nama, Alamat, NoHP) VALUES ('$NIDN', '$NAMA_encrypted', '$ALAMAT_encrypted', '$NOHP_encrypted')";
 
     if ($conn->query($sql) === TRUE) {
-        echo "Data dosen berhasil disimpan dengan enkripsi.";
+        echo "Data dosen berhasil disimpan.";
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }

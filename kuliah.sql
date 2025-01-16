@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 10, 2024 at 03:03 PM
+-- Generation Time: Jan 16, 2025 at 04:38 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -33,6 +33,16 @@ CREATE TABLE `dosen` (
   `Alamat` varchar(30) NOT NULL,
   `NoHP` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `dosen`
+--
+
+INSERT INTO `dosen` (`NIDN`, `Nama`, `Alamat`, `NoHP`) VALUES
+('', '', '', ''),
+('', '', '', ''),
+('', '', '', ''),
+('', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -64,42 +74,6 @@ CREATE TABLE `krsnil` (
   `nuas` varchar(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `krsnil`
---
-
-INSERT INTO `krsnil` (`tahun_ajaran`, `semester`, `npm`, `kode_mk`, `nsikap`, `ntugas`, `nuts`, `nuas`) VALUES
-('2024/2025', 'Ganjil', '220840077', 1, '90', '40', '85', '98'),
-('2024/2025', 'Ganjil', '220840077', 2, '80', '65', '88', '70'),
-('2024/2025', 'Ganjil', '220840079', 3, '80', '75', '87', '79'),
-('2024/2025', 'Ganjil', '220840080', 5, '70', '80', '90', '87'),
-('2024/2025', 'Ganjil', '220840080', 14, '76', '87', '78', '90'),
-('2024/2025', 'Ganjil', '220840082', 7, '50', '78', '87', '77'),
-('2024/2025', 'Ganjil', '220840093', 9, '77', '78', '89', '69'),
-('2024/2025', 'Ganjil', '220840095', 11, '55', '87', '76', '87'),
-('2024/2025', 'Ganjil', '220840096', 13, '87', '80', '80', '80'),
-('2024/2025', 'Ganjil', '220840099', 15, '80', '78', '97', '59'),
-('2024/2025', 'Ganjil', '220840100', 2, '50', '66', '78', '89'),
-('2024/2025', 'Ganjil', '220840102', 3, '78', '68', '78', '98'),
-('2024/2025', 'Ganjil', '220840109', 5, '78', '78', '87', '87'),
-('2024/2025', 'Ganjil', '220840114', 7, '89', '87', '76', '56'),
-('2024/2025', 'Ganjil', '220840126', 9, '88', '76', '67', '85'),
-('2024/2025', 'Ganjil', '228400106', 10, '57', '89', '54', '78'),
-('2024/2025', 'Genap', '220840079', 4, '86', '79', '67', '89'),
-('2024/2025', 'Genap', '220840080', 6, '67', '89', '56', '56'),
-('2024/2025', 'Genap', '220840080', 15, '68', '89', '46', '98'),
-('2024/2025', 'Genap', '220840082', 8, '76', '87', '56', '89'),
-('2024/2025', 'Genap', '220840093', 10, '86', '75', '76', '78'),
-('2024/2025', 'Genap', '220840095', 12, '76', '79', '79', '90'),
-('2024/2025', 'Genap', '220840096', 14, '79', '89', '78', '67'),
-('2024/2025', 'Genap', '220840099', 1, '87', '67', '56', '87'),
-('2024/2025', 'Genap', '220840100', 3, '78', '56', '87', '95'),
-('2024/2025', 'Genap', '220840102', 4, '56', '67', '45', '78'),
-('2024/2025', 'Genap', '220840109', 6, '75', '56', '57', '99'),
-('2024/2025', 'Genap', '220840114', 8, '65', '76', '87', '56'),
-('2024/2025', 'Genap', '220840126', 10, '78', '56', '89', '66'),
-('2024/2025', 'Genap', '228400106', 11, '65', '57', '87', '55');
-
 -- --------------------------------------------------------
 
 --
@@ -120,21 +94,19 @@ CREATE TABLE `tblmahasiswa` (
 --
 
 INSERT INTO `tblmahasiswa` (`npm`, `nama`, `alamat`, `tempat_lahir`, `tanggal_lahir`, `asal_sma`) VALUES
-('220840077', 'Purba Lamdippos H P', 'Helvetia', 'Bekasi', '01-09-2004', 'SMA 1 PAGARAN'),
-('220840079', 'Vinela Sitepu', 'Setiabudi', 'Kaban Jahe', '16-12-2003', 'SMA KABAN JAHE'),
-('220840080', 'Michael W Sembiring', 'Gang Rahmat', 'Siantar', '08-11-2004', 'SMA 2 SIANTAR'),
-('220840082', 'Peronica U Nainggolan', 'Tanjung Sari ', 'Tebing Tinggi', '19-06-2004', 'SMA 1 DOLOK MASIHUL'),
-('220840093', 'Roy I Siahaan', 'Warnet Imka Tj Sari', 'Sibolga', '08-10-2003', 'SMAS 1 SIBOLGA'),
-('220840094', 'Ronald Carda Pinem', 'Simalingkar  B', ' Medan', '30-02-2003', 'SMA TELKOM'),
-('220840095', 'Dennis A Manik', 'Simalingkar ', 'Siantar', '04-04-2000', 'SMK 1 MEDAN'),
-('220840096', 'Steven Ari P Silaban', 'Tanjung Morawa', 'Setiabudi', '19-06-2004', 'SMA 1 TANJUNG MORAWA'),
-('220840099', 'Meigovanri Sihotang', 'Gang Bahagia', 'Pakkat', '15-09-2003', 'SMA 3 PAKKAT'),
-('220840100', 'Meiman Rizky Lase', 'Gang Horas depan OYO', 'Sibolga', '06-07-2003', 'SMK BINTANG TIMUR'),
-('220840102', 'Seka Sinulingga', 'Jalan Pales Raya', 'Kaban Jahe', '30-12-2003', 'SMA 3 KABAN JAHE'),
-('220840109', 'Della Sitohang', 'Sunggal', 'Aceh Tenggara', '06-07-2003', 'SMA ACEH'),
-('220840114', 'Aritmen Andreas Manurung', 'Medan', 'Medan', '11-01-2003', 'SMK ASGA MANDIRI'),
-('220840126', 'Frans Bangun', 'Padang Bulan', 'Medan', '09-11-2004', 'SMA PENCAWAN'),
-('228400106', 'Ananda Sinaga', 'Setiabudi', 'Siborong borong', '05-05-2004', 'SMA 1 SIBORONG-BORON');
+('220840077', 'esYs4XT9GR6HjV3oqKNUyZZUWw==', 'YtYy9XCpPB4=', 'aNY14ma0', 'GINutzjtbFLa2A==', 'ef4foyT9BT6tqGbZlg=='),
+('220840079', 'fNow5nm8dSyDnVHorQ==', 'edYq6nS/IBuD', 'YdI84nu3NBeP', 'GINusDjsZ1Lb3w==', 'ef4fo16cFz6ko3XQnQ=='),
+('220840080', 'Z9o963S4OV+9yWf9ta5Om7cabA==', 'bdIw5DWPNBeHiEA=', 'edo/7WG8Jw==', 'GINutzjsZFLa0Q==', 'ef4foyf9Bjarp2DZig=='),
+('220840082', 'etYs7Hu0Ph7KvBTWuaVJjrkbZ8W6', 'ftIw6WCzMl+5iEbx', 'ftY86nu6dSuDh1P', 'GINutzjtY1Lb0A==', 'ef4fo1v9ZF+upnjXk+xq'),
+('220840093', 'eNwno1z9BhaLgVX5uaI=', 'ftIw6WCzMl+5iEbx', 'edo87Hm6NA==', 'GINusDjsZVLa0Q==', 'ef4foyT9BjaopnjfmQ=='),
+('220840094', 'eNww4nm5dTyLm1D5+JxOh7sZ', 'edoz4nm0OxiBiEa4mg==', 'Z9Y64ns=', 'GINusDjtZ1Lb0A==', 'ef4fo0GYGTSlpA=='),
+('220840095', 'btYw7XyudT7KpFX2sac=', 'edoz4nm0OxiBiEY=', 'edo/7WG8Jw==', 'GINuszjtYVLa3Q==', 'ef4VoyT9GDquqHo='),
+('220840096', 'ecc79XCzdT7KuRTLsaBGi78a', 'ftIw6WCzMl+nhkb5r60=', 'Z9Y64ns=', 'GINutzjtY1Lb0A==', 'ef4foyT9ATWnpmbZj40='),
+('220840099', 'Z9Y35HqrNBGYgBTLsaRInb8abA==', 'bdIw5DWPNBeHiEA=', 'etI16HSp', 'GINusDjtbVLY2w==', 'ef4foyT9BT6honXM'),
+('220840100', 'Z9Y37nT9BxaQgk24lK1UjA==', 'bdIw5DWPNBeHiEA=', 'edo87Hm6NA==', 'GINuszjtYlLb0A==', 'ef4Vo1eUGyurp3O4jIVq'),
+('220840102', 'edY14jWOPBGfhV32v6tG', 'etIz5nm8', 'aNYs4mapNBiD', 'GINusTjtbFLb2w==', 'ef4foyT9Fzq4qGfMmYtu'),
+('220840109', 'btYy73T9Bhaehlz5tqs=', 'ecYw5HK8OQ==', 'a9A76w==', 'GINusDjtbFLb2g==', 'ef4foyT9FDyvoQ=='),
+('220840114', 'a8E393i4O1+rh1Dqva1UyZMVZdGmAh4A', 'Z9Y64ns=', 'Z9Y64ns=', 'GINusjjtbFLb0Q==', 'ef4foyT9GDquqHo=');
 
 -- --------------------------------------------------------
 
@@ -154,21 +126,7 @@ CREATE TABLE `tblmatakuliah` (
 --
 
 INSERT INTO `tblmatakuliah` (`kode_mk`, `nama_mk`, `sks`, `prasyarat`) VALUES
-(1, 'Statistika', '2', 'wajib'),
-(2, 'Pendidikan Kewarganegaraa', '2', 'umum'),
-(3, 'Algoritma Pemrograman', '3', 'wajib'),
-(4, 'Bahasa Indonesia', '2', 'umum'),
-(5, 'Bahasa Inggris', '2', 'umum'),
-(6, 'Matematika Dasar', '3', 'wajib'),
-(7, 'Pengantar Teknologi ', '2', 'wajib'),
-(8, 'Etika Profesi', '2', 'umum'),
-(9, 'Rekayasa Perangkat Lunak', '3', 'wajib'),
-(10, 'Sistem Basis data', '3', 'wajib'),
-(11, 'Pemrograman basis Objek', '3', 'wajib'),
-(12, 'Pengantar AI', '3', 'wajib'),
-(13, 'Pengolahan Citra Digital', '3', 'wajib'),
-(14, 'Pemrograman Web', '3', 'wajib'),
-(15, 'Keamanan Basis Data', '3', 'Peminatan');
+(1, 'ecc/93yuIRaBiA==', 'GA==', 'fdI06nc=');
 
 -- --------------------------------------------------------
 

@@ -13,17 +13,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sks = $_POST['sks'];
     $prasyarat = $_POST['prasyarat'];
 
-    // Encrypt data sebelum disimpan
-    $kode_mk_encrypted = openssl_encrypt($kode_mk, $ciphering, $encryption_key, 0, $encryption_iv);
+    // Encrypt data kecuali kode_mk
     $nama_mk_encrypted = openssl_encrypt($nama_mk, $ciphering, $encryption_key, 0, $encryption_iv);
     $sks_encrypted = openssl_encrypt($sks, $ciphering, $encryption_key, 0, $encryption_iv);
     $prasyarat_encrypted = openssl_encrypt($prasyarat, $ciphering, $encryption_key, 0, $encryption_iv);
 
-    // Query untuk menyimpan data terenkripsi ke database
-    $sql = "INSERT INTO tblmatakuliah (kode_mk, nama_mk, sks, prasyarat) VALUES ('$kode_mk_encrypted', '$nama_mk_encrypted', '$sks_encrypted', '$prasyarat_encrypted')";
+    // Query untuk menyimpan data ke database
+    $sql = "INSERT INTO tblmatakuliah (kode_mk, nama_mk, sks, prasyarat) VALUES ('$kode_mk', '$nama_mk_encrypted', '$sks_encrypted', '$prasyarat_encrypted')";
 
     if ($conn->query($sql) === TRUE) {
-        echo "Data mata kuliah berhasil disimpan dengan enkripsi.";
+        echo "Data mata kuliah berhasil disimpan.";
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }

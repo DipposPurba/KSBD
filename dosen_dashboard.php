@@ -160,7 +160,7 @@
         </div>
        
 
-        <!-- Form Input Data Mata Kuliah -->
+                <!-- Form Input Data Mata Kuliah -->
         <div id="matakuliah_input" class="form-section">
             <h2>Input Data Mata Kuliah</h2>
             <form action="submit_matakuliah.php" method="POST">
@@ -174,11 +174,16 @@
                 <input type="number" id="sks" name="sks" required>
                 
                 <label for="prasyarat">Prasyarat:</label>
-                <input type="text" id="prasyarat" name="prasyarat" required>
+                <select id="prasyarat" name="prasyarat" required>
+                    <option value="Wajib">Wajib</option>
+                    <option value="Umum">Umum</option>
+                    <option value="Peminatan">Peminatan</option>
+                </select>
                 
                 <button type="submit">Simpan</button>
             </form>
         </div>
+
 
         <!-- Form Input Data Dosen -->
         <div id="dosen_input" class="form-section">
@@ -210,8 +215,7 @@
                 <label for="kode_mk_krs">Kode MK:</label>
                 <input type="text" id="kode_mk_krs" name="kode_mk" required>
                 
-                <label for="tahun_ajaran_krs">Tahun Ajaran:</label>
-                <input type="text" id="tahun_ajaran_krs" name="tahun_ajaran" required>
+                <label for="tah
                 
                 <label for="semester_krs">Semester:</label>
                 <input type="text" id="semester_krs" name="semester" required>
@@ -220,7 +224,7 @@
             </form>
         </div>
 
-        <!-- Form Input Data KRS Nilai -->
+                <!-- Form Input Data KRS Nilai -->
         <div id="krsnil_input" class="form-section">
             <h2>Input Data KRS Nilai</h2>
             <form action="submit_krsnil.php" method="POST">
@@ -234,7 +238,32 @@
                 <input type="text" id="npm_krsnil" name="npm" required>
                 
                 <label for="kode_mk_krsnil">Kode MK:</label>
-                <input type="text" id="kode_mk_krsnil" name="kode_mk" required>
+                <select id="kode_mk_krsnil" name="kode_mk" required>
+                    <option value="">-- Pilih Mata Kuliah --</option>
+                    <?php
+                    include 'config.php'; // Sertakan konfigurasi database
+                    
+                    // Tentukan kunci dan metode enkripsi
+                    $encryption_key = 'kunci_enkripsi_rahasia'; // Ganti dengan kunci yang aman
+                    $encryption_iv = '1234567891011121'; // Harus 16 byte untuk metode AES-128-CTR
+                    $ciphering = "AES-128-CTR";
+                    
+                    // Query untuk mengambil data dari database
+                    $result = $conn->query("SELECT kode_mk, nama_mk FROM tblmatakuliah");
+                    if ($result->num_rows > 0) {
+                        while ($row = $result->fetch_assoc()) {
+                            // Dekripsi nama_mk
+                            $nama_mk_decrypted = openssl_decrypt($row['nama_mk'], $ciphering, $encryption_key, 0, $encryption_iv);
+                            
+                            // Gabungkan kode_mk dan nama_mk untuk ditampilkan
+                            $option_text = "{$row['kode_mk']} - {$nama_mk_decrypted}";
+                            echo "<option value='{$row['kode_mk']}'>{$option_text}</option>";
+                        }
+                    } else {
+                        echo "<option value=''>Tidak ada mata kuliah tersedia</option>";
+                    }
+                    ?>
+                </select>
                 
                 <label for="nsikap">Nilai Sikap:</label>
                 <input type="number" id="nsikap" name="nsikap" required>
@@ -252,7 +281,9 @@
             </form>
         </div>
 
-                <!-- Display Data Mahasiswa -->
+
+
+        <!-- Display Data Mahasiswa -->
         <div id="mahasiswa_display" class="form-section">
             <h2>Data Mahasiswa</h2>
             <table border="1">
@@ -279,17 +310,16 @@
                     $result = $conn->query("SELECT * FROM tblmahasiswa");
                     if ($result->num_rows > 0) {
                         while ($row = $result->fetch_assoc()) {
-                            // Dekripsi data sebelum ditampilkan
-                            $npm_plain = openssl_decrypt($row['npm'], $ciphering, $encryption_key, 0, $encryption_iv);
+                            // Dekripsi data selain NPM
                             $nama_plain = openssl_decrypt($row['nama'], $ciphering, $encryption_key, 0, $encryption_iv);
                             $alamat_plain = openssl_decrypt($row['alamat'], $ciphering, $encryption_key, 0, $encryption_iv);
                             $tempat_lahir_plain = openssl_decrypt($row['tempat_lahir'], $ciphering, $encryption_key, 0, $encryption_iv);
                             $tanggal_lahir_plain = openssl_decrypt($row['tanggal_lahir'], $ciphering, $encryption_key, 0, $encryption_iv);
                             $asal_sma_plain = openssl_decrypt($row['asal_sma'], $ciphering, $encryption_key, 0, $encryption_iv);
 
-                            // Tampilkan data dalam bentuk plaintext
+                            // Tampilkan data dengan NPM dalam bentuk asli
                             echo "<tr>
-                                    <td>{$npm_plain}</td>
+                                    <td>{$row['npm']}</td> <!-- NPM langsung dari database tanpa dekripsi -->
                                     <td>{$nama_plain}</td>
                                     <td>{$alamat_plain}</td>
                                     <td>{$tempat_lahir_plain}</td>
@@ -307,7 +337,7 @@
 
 
 
-                <!-- Display Data Mata Kuliah -->
+                    <!-- Display Data Mata Kuliah -->
         <div id="matakuliah_display" class="form-section">
             <h2>Data Mata Kuliah</h2>
             <table>
@@ -332,8 +362,10 @@
                     $result = $conn->query("SELECT * FROM tblmatakuliah");
                     if ($result->num_rows > 0) {
                         while ($row = $result->fetch_assoc()) {
-                            // Dekripsi data
-                            $kode_mk = openssl_decrypt($row['kode_mk'], $ciphering, $encryption_key, 0, $encryption_iv);
+                            // Kolom kode_mk langsung digunakan tanpa dekripsi
+                            $kode_mk = $row['kode_mk'];
+                            
+                            // Dekripsi data untuk kolom lainnya
                             $nama_mk = openssl_decrypt($row['nama_mk'], $ciphering, $encryption_key, 0, $encryption_iv);
                             $sks = openssl_decrypt($row['sks'], $ciphering, $encryption_key, 0, $encryption_iv);
                             $prasyarat = openssl_decrypt($row['prasyarat'], $ciphering, $encryption_key, 0, $encryption_iv);
@@ -352,6 +384,7 @@
                 </tbody>
             </table>
         </div>
+
 
 
         <!-- Display Data KRS Nilai -->
@@ -383,11 +416,11 @@
                     $result = $conn->query("SELECT * FROM krsnil");
                     if ($result->num_rows > 0) {
                         while ($row = $result->fetch_assoc()) {
-                            // Dekripsi data
+                            // Dekripsi data kecuali kode_mk
                             $tahun_ajaran = openssl_decrypt($row['tahun_ajaran'], $ciphering, $encryption_key, 0, $encryption_iv);
                             $semester = openssl_decrypt($row['semester'], $ciphering, $encryption_key, 0, $encryption_iv);
-                            $npm = openssl_decrypt($row['npm'], $ciphering, $encryption_key, 0, $encryption_iv);
-                            $kode_mk = openssl_decrypt($row['kode_mk'], $ciphering, $encryption_key, 0, $encryption_iv);
+                            $npm = $row['npm']; // Tidak didekripsi
+                            $kode_mk = $row['kode_mk']; // Tidak didekripsi
                             $nsikap = openssl_decrypt($row['nsikap'], $ciphering, $encryption_key, 0, $encryption_iv);
                             $ntugas = openssl_decrypt($row['ntugas'], $ciphering, $encryption_key, 0, $encryption_iv);
                             $nuts = openssl_decrypt($row['nuts'], $ciphering, $encryption_key, 0, $encryption_iv);
@@ -413,7 +446,8 @@
         </div>
 
 
-            <!-- Display Data Dosen -->
+
+                <!-- Display Data Dosen -->
         <div id="dosen_display" class="form-section">
             <h2>Data Dosen</h2>
             <table>
@@ -438,11 +472,11 @@
                     $result = $conn->query("SELECT * FROM dosen");
                     if ($result->num_rows > 0) {
                         while ($row = $result->fetch_assoc()) {
-                            // Dekripsi data
-                            $NIDN = openssl_decrypt($row['NIDN'], $ciphering, $encryption_key, 0, $encryption_iv);
+                            // Kolom NIDN tidak didekripsi karena plaintext
+                            $NIDN = $row['NIDN']; 
                             $NAMA = openssl_decrypt($row['Nama'], $ciphering, $encryption_key, 0, $encryption_iv);
                             $ALAMAT = openssl_decrypt($row['Alamat'], $ciphering, $encryption_key, 0, $encryption_iv);
-                            $NOHP = openssl_decrypt($row['noHP'], $ciphering, $encryption_key, 0, $encryption_iv);
+                            $NOHP = openssl_decrypt($row['NoHP'], $ciphering, $encryption_key, 0, $encryption_iv);
 
                             echo "<tr>
                                     <td>{$NIDN}</td>
@@ -458,6 +492,7 @@
                 </tbody>
             </table>
         </div>
+
 
     </div>
 </body>

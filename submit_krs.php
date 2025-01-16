@@ -8,14 +8,14 @@ $ciphering = "AES-128-CTR";
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Ambil data dari form
-    $npm = $_POST['npm'];
+    $npm = $_POST['npm']; // NPM tetap disimpan tanpa enkripsi
     $kode_mk = $_POST['kode_mk'];
     $tahun_ajaran = $_POST['tahun_ajaran'];
     $semester = $_POST['semester'];
 
     // Encrypt data sebelum disimpan
-    $npm_encrypted = openssl_encrypt($npm, $ciphering, $encryption_key, 0, $encryption_iv);
-    $kode_mk_encrypted = openssl_encrypt($kode_mk, $ciphering, $encryption_key, 0, $encryption_iv);
+    
+    
     $tahun_ajaran_encrypted = openssl_encrypt($tahun_ajaran, $ciphering, $encryption_key, 0, $encryption_iv);
     $semester_encrypted = openssl_encrypt($semester, $ciphering, $encryption_key, 0, $encryption_iv);
 
@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (!empty($npm) && !empty($kode_mk) && !empty($tahun_ajaran) && !empty($semester)) {
         // Query untuk menyimpan data terenkripsi ke tabel KRS
         $query = "INSERT INTO krs (npm, kode_mk, tahun_ajaran, semester) 
-                  VALUES ('$npm_encrypted', '$kode_mk_encrypted', '$tahun_ajaran_encrypted', '$semester_encrypted')";
+                  VALUES ('$npm', '$kode_mk', '$tahun_ajaran_encrypted', '$semester_encrypted')";
 
         // Eksekusi query
         if (mysqli_query($conn, $query)) {
