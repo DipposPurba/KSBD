@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nuas_encrypted = openssl_encrypt($nuas, $ciphering, $encryption_key, 0, $encryption_iv);
 
     // Query untuk menyimpan data terenkripsi ke database
-    $sql = "INSERT INTO tblkrsnil (tahun_ajaran, semester, npm, kode_mk, nsikap, ntugas, nuts, nuas) VALUES ('$tahun_ajaran_encrypted', '$semester_encrypted', '$npm', '$kode_mk', '$nsikap_encrypted', '$ntugas_encrypted', '$nuts_encrypted', '$nuas_encrypted')";
+    $sql = "INSERT INTO krsnil (tahun_ajaran, semester, npm, kode_mk, nsikap, ntugas, nuts, nuas) VALUES ('$tahun_ajaran_encrypted', '$semester_encrypted', '$npm', '$kode_mk', '$nsikap_encrypted', '$ntugas_encrypted', '$nuts_encrypted', '$nuas_encrypted')";
 
     if ($conn->query($sql) === TRUE) {
         echo "Data nilai KRS berhasil disimpan dengan enkripsi.";

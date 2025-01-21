@@ -473,10 +473,10 @@
                     if ($result->num_rows > 0) {
                         while ($row = $result->fetch_assoc()) {
                             // Kolom NIDN tidak didekripsi karena plaintext
-                            $NIDN = $row['NIDN']; 
-                            $NAMA = openssl_decrypt($row['Nama'], $ciphering, $encryption_key, 0, $encryption_iv);
-                            $ALAMAT = openssl_decrypt($row['Alamat'], $ciphering, $encryption_key, 0, $encryption_iv);
-                            $NOHP = openssl_decrypt($row['NoHP'], $ciphering, $encryption_key, 0, $encryption_iv);
+                            $NIDN = $row['nidn']; 
+                            $NAMA = openssl_decrypt($row['nama'], $ciphering, $encryption_key, 0, $encryption_iv);
+                            $ALAMAT = openssl_decrypt($row['alamat'], $ciphering, $encryption_key, 0, $encryption_iv);
+                            $NOHP = openssl_decrypt($row['nohp'], $ciphering, $encryption_key, 0, $encryption_iv);
 
                             echo "<tr>
                                     <td>{$NIDN}</td>
