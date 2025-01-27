@@ -122,6 +122,7 @@
         <a href="#" onclick="showSection('matakuliah_display')">Data Mata Kuliah</a>
         <a href="#" onclick="showSection('krsnil_display')">Data KRS Nilai</a>
         <a href="#" onclick="showSection('dosen_display')">Data Dosen</a>
+        <a href="#" onclick="showSection('krs_display')">Data KRS</a>
         <!-- Link untuk logout -->
         <a href="logout.php">Logout</a>
     </div>
@@ -233,10 +234,20 @@
 
 
 
-        <!-- Display Data KRS Nilai -->
+            <!-- Display Data KRS Nilai -->
         <div id="krsnil_display" class="form-section">
             <h2>Data KRS Nilai</h2>
-            <table>
+
+            <!-- Form Filter Tahun Ajaran dan Semester -->
+            <form method="POST" action="">
+                <label for="tahun_ajaran">Tahun Ajaran:</label>
+                <input type="text" id="tahun_ajaran" name="tahun_ajaran" placeholder="Contoh: 2024/2025" required>
+                <label for="semester">Semester:</label>
+                <input type="number" id="semester" name="semester" placeholder="Contoh: 1, 2, 3, dst." min="1" required>
+                <button type="submit" name="filter">Tampilkan Data</button>
+            </form>
+
+            <table border="1">
                 <thead>
                     <tr>
                         <th>Tahun Ajaran</th>
@@ -258,38 +269,63 @@
                     $encryption_iv = '1234567891011121'; // Harus 16 byte untuk AES-128-CTR
                     $ciphering = "AES-128-CTR";
 
-                    // Ambil data dari database
-                    $result = $conn->query("SELECT * FROM krsnil");
-                    if ($result->num_rows > 0) {
-                        while ($row = $result->fetch_assoc()) {
-                            // Dekripsi data kecuali kode_mk
-                            $tahun_ajaran = openssl_decrypt($row['tahun_ajaran'], $ciphering, $encryption_key, 0, $encryption_iv);
-                            $semester = openssl_decrypt($row['semester'], $ciphering, $encryption_key, 0, $encryption_iv);
-                            $npm = $row['npm']; // Tidak didekripsi
-                            $kode_mk = $row['kode_mk']; // Tidak didekripsi
-                            $nsikap = openssl_decrypt($row['nsikap'], $ciphering, $encryption_key, 0, $encryption_iv);
-                            $ntugas = openssl_decrypt($row['ntugas'], $ciphering, $encryption_key, 0, $encryption_iv);
-                            $nuts = openssl_decrypt($row['nuts'], $ciphering, $encryption_key, 0, $encryption_iv);
-                            $nuas = openssl_decrypt($row['nuas'], $ciphering, $encryption_key, 0, $encryption_iv);
+                    // Cek apakah filter telah disubmit
+                    if (isset($_POST['filter'])) {
+                        // Ambil input tahun ajaran dan semester
+                        $tahun_ajaran_filter = $_POST['tahun_ajaran'];
+                        $semester_filter = $_POST['semester'];
 
-                            echo "<tr>
-                                    <td>{$tahun_ajaran}</td>
-                                    <td>{$semester}</td>
-                                    <td>{$npm}</td>
-                                    <td>{$kode_mk}</td>
-                                    <td>{$nsikap}</td>
-                                    <td>{$ntugas}</td>
-                                    <td>{$nuts}</td>
-                                    <td>{$nuas}</td>
-                                </tr>";
+                        // Enkripsi filter untuk pencocokan dengan data di database
+                        $tahun_ajaran_encrypted = openssl_encrypt($tahun_ajaran_filter, $ciphering, $encryption_key, 0, $encryption_iv);
+                        $semester_encrypted = openssl_encrypt($semester_filter, $ciphering, $encryption_key, 0, $encryption_iv);
+
+                        // Query data berdasarkan filter
+                        $result = $conn->query("
+                            SELECT 
+                                tahun_ajaran, 
+                                semester, 
+                                npm, 
+                                kode_mk, 
+                                nsikap, 
+                                ntugas, 
+                                nuts, 
+                                nuas
+                            FROM krsnil
+                            WHERE tahun_ajaran = '$tahun_ajaran_encrypted' AND semester = '$semester_encrypted'
+                        ");
+
+                        if ($result->num_rows > 0) {
+                            while ($row = $result->fetch_assoc()) {
+                                // Dekripsi data
+                                $tahun_ajaran = openssl_decrypt($row['tahun_ajaran'], $ciphering, $encryption_key, 0, $encryption_iv);
+                                $semester = openssl_decrypt($row['semester'], $ciphering, $encryption_key, 0, $encryption_iv);
+                                $npm = $row['npm'];
+                                $kode_mk = $row['kode_mk'];
+                                $nsikap = openssl_decrypt($row['nsikap'], $ciphering, $encryption_key, 0, $encryption_iv);
+                                $ntugas = openssl_decrypt($row['ntugas'], $ciphering, $encryption_key, 0, $encryption_iv);
+                                $nuts = openssl_decrypt($row['nuts'], $ciphering, $encryption_key, 0, $encryption_iv);
+                                $nuas = openssl_decrypt($row['nuas'], $ciphering, $encryption_key, 0, $encryption_iv);
+
+                                echo "<tr>
+                                        <td>{$tahun_ajaran}</td>
+                                        <td>{$semester}</td>
+                                        <td>{$npm}</td>
+                                        <td>{$kode_mk}</td>
+                                        <td>{$nsikap}</td>
+                                        <td>{$ntugas}</td>
+                                        <td>{$nuts}</td>
+                                        <td>{$nuas}</td>
+                                    </tr>";
+                            }
+                        } else {
+                            echo "<tr><td colspan='8'>Tidak ada data tersedia untuk tahun ajaran dan semester ini.</td></tr>";
                         }
-                    } else {
-                        echo "<tr><td colspan='8'>Tidak ada data tersedia.</td></tr>";
                     }
                     ?>
                 </tbody>
             </table>
         </div>
+
 
 
 
@@ -338,6 +374,63 @@
                 </tbody>
             </table>
         </div>
+        
+                    <!-- Display Data KRS Berdasarkan NPM -->
+        <div id="krs_display" class="form-section">
+            <h2>Data KRS Mahasiswa</h2>
+            <form method="POST">
+                <label for="npm">Masukkan NPM:</label>
+                <input type="text" id="npm" name="npm" required>
+                <button type="submit">Tampilkan Data</button>
+            </form>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>NPM</th>
+                        <th>Kode MK</th>
+                        <th>Tahun Ajaran</th>
+                        <th>Semester</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    include 'config.php'; // Sertakan konfigurasi database
+
+                    // Tentukan kunci dan metode enkripsi
+                    $encryption_key = 'kunci_enkripsi_rahasia'; // Ganti dengan kunci yang aman
+                    $encryption_iv = '1234567891011121'; // Harus 16 byte untuk AES-128-CTR
+                    $ciphering = "AES-128-CTR";
+
+                    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                        $npm = $conn->real_escape_string($_POST['npm']); // Hindari SQL Injection dengan real_escape_string()
+
+                        // Query untuk mengambil data berdasarkan NPM
+                        $query = "SELECT * FROM krs WHERE npm = '$npm'";
+                        $result = $conn->query($query);
+
+                        if ($result->num_rows > 0) {
+                            while ($row = $result->fetch_assoc()) {
+                                // Dekripsi data untuk kolom tahun ajaran dan semester
+                                $tahun_ajaran = openssl_decrypt($row['tahun_ajaran'], $ciphering, $encryption_key, 0, $encryption_iv);
+                                $semester = openssl_decrypt($row['semester'], $ciphering, $encryption_key, 0, $encryption_iv);
+
+                                echo "<tr>
+                                        <td>{$row['npm']}</td>
+                                        <td>{$row['kode_mk']}</td>
+                                        <td>{$tahun_ajaran}</td>
+                                        <td>{$semester}</td>
+                                    </tr>";
+                            }
+                        } else {
+                            echo "<tr><td colspan='4'>Tidak ada data KRS untuk NPM: {$npm}.</td></tr>";
+                        }
+                    }
+                    ?>
+                </tbody>
+            </table>
+        </div>
+
 
 
     </div>

@@ -122,6 +122,8 @@
         <a href="#" onclick="showSection('dosen_input')">Input Dosen</a>
         <a href="#" onclick="showSection('krs_input')">Input KRS</a>
         <a href="#" onclick="showSection('krsnil_input')">Input Nilai (KRSNIL)</a>
+        <a href="#" onclick="showSection('edit_krsnil_table')">Edit Nilai (KRSNIL)</a>
+        <a href="#" onclick="showSection('update_semester')">Edit Semester (KRSNIL)</a>
 
         <h3>Tampilkan Data</h3>
         <a href="#" onclick="showSection('mahasiswa_display')">Data Mahasiswa</a>
@@ -158,7 +160,65 @@
                 <button type="submit">Simpan</button>
             </form>
         </div>
-       
+                <!-- Tabel Edit Semester KRSNIL -->
+        <div id="edit_krsnil_table" class="form-section">
+            <h2>Edit Semester Data KRSNIL</h2>
+            <table border="1" cellpadding="10">
+                <thead>
+                    <tr>
+                        <th>NPM</th>
+                        <th>Kode MK</th>
+                        <th>Tahun Ajaran</th>
+                        <th>Semester</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    include 'config.php'; // Sertakan file konfigurasi
+
+                    // Tentukan kunci dan metode enkripsi
+                    $encryption_key = 'kunci_enkripsi_rahasia'; // Ganti dengan kunci yang aman
+                    $encryption_iv = '1234567891011121'; // Harus 16 byte untuk metode AES-128-CTR
+                    $ciphering = "AES-128-CTR";
+
+                    // Query untuk mendapatkan semua data dari tabel krsnil
+                    $query = "SELECT * FROM krsnil";
+                    $result = $conn->query($query);
+
+                    if ($result->num_rows > 0) {
+                        while ($row = $result->fetch_assoc()) {
+                            // Dekripsi data
+                            $tahun_ajaran = openssl_decrypt($row['tahun_ajaran'], $ciphering, $encryption_key, 0, $encryption_iv);
+                            $semester = openssl_decrypt($row['semester'], $ciphering, $encryption_key, 0, $encryption_iv);
+
+                            echo "<tr>
+                                    <td>{$row['npm']}</td>
+                                    <td>{$row['kode_mk']}</td>
+                                    <td>{$tahun_ajaran}</td>
+                                    <td>{$semester}</td>
+                                    <td>
+                                        <form action='update_semester.php' method='POST' style='display:inline;'>
+                                            <input type='hidden' name='npm' value='{$row['npm']}'>
+                                            <input type='hidden' name='kode_mk' value='{$row['kode_mk']}'>
+                                            <input type='hidden' name='tahun_ajaran' value='{$row['tahun_ajaran']}'>
+                                            <input type='text' name='semester' value='{$semester}' required>
+                                            <button type='submit'>Update</button>
+                                        </form>
+                                    </td>
+                                </tr>";
+                        }
+                    } else {
+                        echo "<tr><td colspan='5'>Tidak ada data tersedia.</td></tr>";
+                    }
+
+                    $conn->close();
+                    ?>
+                </tbody>
+            </table>
+        </div>
+
+
 
                 <!-- Form Input Data Mata Kuliah -->
         <div id="matakuliah_input" class="form-section">
@@ -205,26 +265,65 @@
             </form>
         </div>
 
-        <!-- Form Input Data KRS -->
+                    <!-- Form Input Data KRS -->
         <div id="krs_input" class="form-section">
             <h2>Input Data KRS</h2>
             <form action="submit_krs.php" method="POST">
+                <!-- Dropdown untuk NPM -->
                 <label for="npm_krs">NPM:</label>
-                <input type="text" id="npm_krs" name="npm" required>
-                
+                <select id="npm_krs" name="npm" required>
+                    <option value="">-- Pilih NPM --</option>
+                    <?php
+                    include 'config.php'; // Sertakan konfigurasi database
+
+                    // Query untuk mengambil semua NPM dari tabel tblmahasiswa
+                    $query_npm = "SELECT npm FROM tblmahasiswa";
+                    $result_npm = $conn->query($query_npm);
+
+                    if ($result_npm->num_rows > 0) {
+                        while ($row = $result_npm->fetch_assoc()) {
+                            echo "<option value='{$row['npm']}'>{$row['npm']}</option>";
+                        }
+                    } else {
+                        echo "<option value=''>Tidak ada data mahasiswa</option>";
+                    }
+                    ?>
+                </select>
+
+                <!-- Dropdown untuk Kode MK -->
                 <label for="kode_mk_krs">Kode MK:</label>
-                <input type="text" id="kode_mk_krs" name="kode_mk" required>
-                
-                <label for="tah
-                
+                <select id="kode_mk_krs" name="kode_mk" required>
+                    <option value="">-- Pilih Kode MK --</option>
+                    <?php
+                    // Query untuk mengambil semua kode MK dari tabel tblmatakuliah
+                    $query_mk = "SELECT kode_mk, nama_mk FROM tblmatakuliah";
+                    $result_mk = $conn->query($query_mk);
+
+                    if ($result_mk->num_rows > 0) {
+                        while ($row = $result_mk->fetch_assoc()) {
+                            echo "<option value='{$row['kode_mk']}'>{$row['kode_mk']}</option>";
+                        }
+                    } else {
+                        echo "<option value=''>Tidak ada data mata kuliah</option>";
+                    }
+                    ?>
+                </select>
+
+                <!-- Input Tahun Ajaran -->
+                <label for="tahun_ajaran">Tahun Ajaran:</label>
+                <input type="text" id="tahun_ajaran" name="tahun_ajaran" required>
+
+                <!-- Input Semester -->
                 <label for="semester_krs">Semester:</label>
                 <input type="text" id="semester_krs" name="semester" required>
-                
+
                 <button type="submit">Simpan</button>
             </form>
         </div>
 
-                <!-- Form Input Data KRS Nilai -->
+
+
+        <!-- Form Input Data KRS Nilai -->
         <div id="krsnil_input" class="form-section">
             <h2>Input Data KRS Nilai</h2>
             <form action="submit_krsnil.php" method="POST">
@@ -280,6 +379,17 @@
                 <button type="submit">Simpan</button>
             </form>
         </div>
+
+        <!-- Tombol untuk Mengubah Semua Field Semester -->
+        <div id="update_semester" class="form-section">
+            <h2>Update Semua Semester</h2>
+            <form action="update_semester.php" method="POST">
+                <label for="semester_update">Semester Baru (Angka):</label>
+                <input type="number" id="semester_update" name="semester_baru" placeholder="Contoh: 1, 2, 3, dst." required>
+                <button type="submit" name="update_semester">Ubah Semua Semester</button>
+            </form>
+        </div>
+
 
 
 
