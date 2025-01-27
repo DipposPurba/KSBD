@@ -123,6 +123,7 @@
         <a href="#" onclick="showSection('krsnil_display')">Data KRS Nilai</a>
         <a href="#" onclick="showSection('dosen_display')">Data Dosen</a>
         <a href="#" onclick="showSection('krs_display')">Data KRS</a>
+        <a href="#" onclick="showSection('khs_search')">KHS</a>
         <!-- Link untuk logout -->
         <a href="logout.php">Logout</a>
     </div>
@@ -324,6 +325,16 @@
                     ?>
                 </tbody>
             </table>
+        </div>
+
+                <!-- Form untuk Mencari KHS -->
+        <div id="khs_search" class="form-section">
+            <h2>Cari KHS Mahasiswa</h2>
+            <form action="display_khs.php" method="POST">
+                <label for="npm_khs">NPM:</label>
+                <input type="text" id="npm_khs" name="npm" placeholder="Masukkan NPM Mahasiswa" required>
+                <button type="submit" name="search_khs">Tampilkan KHS</button>
+            </form>
         </div>
 
 
