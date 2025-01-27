@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 21, 2025 at 09:20 PM
--- Server version: 10.4.25-MariaDB
--- PHP Version: 8.1.10
+-- Generation Time: Jan 27, 2025 at 04:54 AM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -28,21 +28,19 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `dosen` (
-  `NIDN` varchar(20) NOT NULL,
-  `Nama` varchar(45) NOT NULL,
-  `Alamat` varchar(30) NOT NULL,
-  `NoHP` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `nidn` int(20) NOT NULL,
+  `nama` varchar(50) NOT NULL,
+  `alamat` varchar(50) NOT NULL,
+  `nohp` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `dosen`
 --
 
-INSERT INTO `dosen` (`NIDN`, `Nama`, `Alamat`, `NoHP`) VALUES
-('', '', '', ''),
-('', '', '', ''),
-('', '', '', ''),
-('', '', '', '');
+INSERT INTO `dosen` (`nidn`, `nama`, `alamat`, `nohp`) VALUES
+(1, 'btYt6nupNF+6nEb6uQ==', 'ftIw6WCzMl+rh1v1', 'Gotmuy3lbUfS0Q=='),
+(2, 'aMYq5mE=', 'ftIw6WCzMl+rh1v1', 'Gotmuy3lbUfS0Q==');
 
 -- --------------------------------------------------------
 
@@ -55,7 +53,14 @@ CREATE TABLE `krs` (
   `kode_mk` varchar(15) NOT NULL,
   `tahun_ajaran` varchar(15) NOT NULL,
   `semester` varchar(25) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `krs`
+--
+
+INSERT INTO `krs` (`npm`, `kode_mk`, `tahun_ajaran`, `semester`) VALUES
+('220840079', '1', 'GINssTrvZU3c', 'Hw==');
 
 -- --------------------------------------------------------
 
@@ -72,51 +77,52 @@ CREATE TABLE `krsnil` (
   `ntugas` varchar(5) NOT NULL,
   `nuts` varchar(5) NOT NULL,
   `nuas` varchar(5) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `krsnil`
 --
 
 INSERT INTO `krsnil` (`tahun_ajaran`, `semester`, `npm`, `kode_mk`, `nsikap`, `ntugas`, `nuts`, `nuas`) VALUES
-('GINstzrvZU3f', 'bdIw6Xyx', '220840077', 1, 'E4M=', 'HoM=', 'EoY=', 'E4s='),
-('GINstzrvZU3f', 'bdIw6Xyx', '220840079', 1, 'EoM=', 'HYM=', 'HIM=', 'HIQ='),
-('GINstzrvZU3f', 'bdIw6Xyx', '220840080', 1, 'HYQ=', 'HYM=', 'HIM=', 'HIQ='),
-('GINstzrvZU3f', 'bdIw6Xyx', '220840082', 1, 'EoM=', 'HYM=', 'E4M=', 'HIQ='),
-('GINstzrvZU3f', 'bdIw6Xyx', '220840093', 1, 'HYM=', 'HYM=', 'EoM=', 'E4s='),
-('GINstzrvZU3f', 'bdIw6Xyx', '220840094', 1, 'HYM=', 'E4M=', 'EoM=', 'E4s='),
-('GINstzrvZU3f', 'bdIw6Xyx', '220840094', 2, 'HYM=', 'E4M=', 'EoM=', 'E4s='),
-('GINstzrvZU3f', 'bdIw6Xyx', '220840094', 3, 'HYM=', 'E4M=', 'EoM=', 'E4s='),
-('GINstzrvZU3f', 'bdIw6Xyx', '220840094', 4, 'HYM=', 'E4M=', 'EoM=', 'E4s='),
-('GINstzrvZU3f', 'bdIw6Xyx', '220840094', 5, 'HYM=', 'E4M=', 'EoM=', 'E4s='),
-('GINstzrvZU3f', 'bdIw6Xyx', '220840094', 6, 'HYM=', 'E4M=', 'EoM=', 'E4s='),
-('GINstzrvZU3f', 'bdIw6Xyx', '220840094', 7, 'HYM=', 'E4M=', 'EoM=', 'E4s='),
-('GINstzrvZU3f', 'bdIw6Xyx', '220840094', 8, 'HYM=', 'E4M=', 'EoM=', 'E4s='),
-('GINstzrvZU3f', 'bdIw6Xyx', '220840094', 9, 'HIM=', 'Eos=', 'EoM=', 'EoE='),
-('GINstzrvZU3f', 'bdIw6Xyx', '220840094', 10, 'HIM=', 'Eos=', 'HIM=', 'EoE='),
-('GINstzrvZU3f', 'bdIw6Xyx', '220840094', 11, 'HIM=', 'HYM=', 'HIM=', 'EoE='),
-('GINstzrvZU3f', 'bdIw6Xyx', '220840094', 12, 'E4M=', 'HYM=', 'HIM=', 'EoE='),
-('GINstzrvZU3f', 'bdIw6Xyx', '220840094', 13, 'H4M=', 'HYM=', 'HIM=', 'EoE='),
-('GINstzrvZU3f', 'bdIw6Xyx', '220840094', 14, 'H4M=', 'HYM=', 'H4M=', 'EoE='),
-('GINstzrvZU3f', 'bdIw6Xyx', '220840094', 15, 'H4M=', 'HYM=', 'H4M=', 'EoE='),
-('GINstzrvZU3f', 'bdIw6Xyx', '220840095', 1, 'H4M=', 'HYM=', 'H4M=', 'EoE='),
-('GINstzrvZU3f', 'bdIw6Xyx', '220840096', 1, 'H4M=', 'HYM=', 'H4M=', 'EoE='),
-('GINstzrvZU3f', 'bdIw6Xyx', '220840099', 1, 'H4M=', 'HYM=', 'H4M=', 'EoE='),
-('GINstzrvZU3f', 'bdIw6Xyx', '220840100', 1, 'H4M=', 'HYM=', 'H4M=', 'EoE='),
-('GINstzrvZU3f', 'bdIw6Xyx', '220840100', 2, 'HIY=', 'E4M=', 'HYM=', 'EoE='),
-('GINstzrvZU3f', 'bdIw6Xyx', '220840102', 1, 'H4M=', 'HYM=', 'H4M=', 'EoE='),
-('GINstzrvZU3f', 'bdIw6Xyx', '220840102', 11, 'HIY=', 'E4M=', 'HYM=', 'EoE='),
-('GINstzrvZU3f', 'bdIw6Xyx', '220840106', 1, 'HIY=', 'E4M=', 'HYM=', 'EoE='),
-('GINstzrvZU3f', 'bdIw6Xyx', '220840106', 2, 'HIY=', 'E4M=', 'HYM=', 'EoE='),
-('GINstzrvZU3f', 'bdIw6Xyx', '220840109', 1, 'HIY=', 'E4M=', 'HYM=', 'EoE='),
-('GINstzrvZU3f', 'bdIw6Xyx', '220840109', 6, 'HIY=', 'E4M=', 'HYM=', 'EoE='),
-('GINstzrvZU3f', 'bdIw6Xyx', '220840109', 7, 'HIY=', 'E4M=', 'HYM=', 'EoE='),
-('GINstzrvZU3f', 'bdIw6Xyx', '220840109', 8, 'HIY=', 'E4M=', 'HYM=', 'EoE='),
-('GINstzrvZU3f', 'bdIw6Xyx', '220840109', 10, 'HIY=', 'E4M=', 'HYM=', 'EoE='),
-('GINstzrvZU3f', 'bdIw6Xyx', '220840114', 1, 'HIY=', 'E4M=', 'HYM=', 'EoE='),
-('GINstzrvZU3f', 'bdIw6Xyx', '220840114', 9, 'HIY=', 'E4M=', 'HYM=', 'EoE='),
-('GINstzrvZU3f', 'bdIw6Xyx', '220840114', 11, 'HIY=', 'E4M=', 'HYM=', 'EoE='),
-('GINstzrvZU3f', 'bdIw6Xyx', '220840126', 1, 'HIY=', 'E4M=', 'HYM=', 'EoE=');
+('GINssTrvZU3c', 'Hw==', '220840077', 1, 'E4M=', 'E4M=', 'E4M=', 'E4M='),
+('GINstzrvZU3f', 'Hw==', '220840077', 1, 'E4M=', 'HoM=', 'EoY=', 'E4s='),
+('GINstzrvZU3f', 'Hw==', '220840079', 1, 'EoM=', 'HYM=', 'HIM=', 'HIQ='),
+('GINstzrvZU3f', 'Hw==', '220840080', 1, 'HYQ=', 'HYM=', 'HIM=', 'HIQ='),
+('GINstzrvZU3f', 'Hw==', '220840082', 1, 'EoM=', 'HYM=', 'E4M=', 'HIQ='),
+('GINstzrvZU3f', 'Hw==', '220840093', 1, 'HYM=', 'HYM=', 'EoM=', 'E4s='),
+('GINstzrvZU3f', 'Hw==', '220840094', 1, 'HYM=', 'E4M=', 'EoM=', 'E4s='),
+('GINstzrvZU3f', 'Hw==', '220840094', 2, 'HYM=', 'E4M=', 'EoM=', 'E4s='),
+('GINstzrvZU3f', 'Hw==', '220840094', 3, 'HYM=', 'E4M=', 'EoM=', 'E4s='),
+('GINstzrvZU3f', 'Hw==', '220840094', 4, 'HYM=', 'E4M=', 'EoM=', 'E4s='),
+('GINstzrvZU3f', 'Hw==', '220840094', 5, 'HYM=', 'E4M=', 'EoM=', 'E4s='),
+('GINstzrvZU3f', 'Hw==', '220840094', 6, 'HYM=', 'E4M=', 'EoM=', 'E4s='),
+('GINstzrvZU3f', 'Hw==', '220840094', 7, 'HYM=', 'E4M=', 'EoM=', 'E4s='),
+('GINstzrvZU3f', 'Hw==', '220840094', 8, 'HYM=', 'E4M=', 'EoM=', 'E4s='),
+('GINstzrvZU3f', 'Hw==', '220840094', 9, 'HIM=', 'Eos=', 'EoM=', 'EoE='),
+('GINstzrvZU3f', 'Hw==', '220840094', 10, 'HIM=', 'Eos=', 'HIM=', 'EoE='),
+('GINstzrvZU3f', 'Hw==', '220840094', 11, 'HIM=', 'HYM=', 'HIM=', 'EoE='),
+('GINstzrvZU3f', 'Hw==', '220840094', 12, 'E4M=', 'HYM=', 'HIM=', 'EoE='),
+('GINstzrvZU3f', 'Hw==', '220840094', 13, 'H4M=', 'HYM=', 'HIM=', 'EoE='),
+('GINstzrvZU3f', 'Hw==', '220840094', 14, 'H4M=', 'HYM=', 'H4M=', 'EoE='),
+('GINstzrvZU3f', 'Hw==', '220840094', 15, 'H4M=', 'HYM=', 'H4M=', 'EoE='),
+('GINstzrvZU3f', 'Hw==', '220840095', 1, 'H4M=', 'HYM=', 'H4M=', 'EoE='),
+('GINstzrvZU3f', 'Hw==', '220840096', 1, 'H4M=', 'HYM=', 'H4M=', 'EoE='),
+('GINstzrvZU3f', 'Hw==', '220840099', 1, 'H4M=', 'HYM=', 'H4M=', 'EoE='),
+('GINstzrvZU3f', 'Hw==', '220840100', 1, 'H4M=', 'HYM=', 'H4M=', 'EoE='),
+('GINstzrvZU3f', 'Hw==', '220840100', 2, 'HIY=', 'E4M=', 'HYM=', 'EoE='),
+('GINstzrvZU3f', 'Hw==', '220840102', 1, 'H4M=', 'HYM=', 'H4M=', 'EoE='),
+('GINstzrvZU3f', 'Hw==', '220840102', 11, 'HIY=', 'E4M=', 'HYM=', 'EoE='),
+('GINstzrvZU3f', 'Hw==', '220840106', 1, 'HIY=', 'E4M=', 'HYM=', 'EoE='),
+('GINstzrvZU3f', 'Hw==', '220840106', 2, 'HIY=', 'E4M=', 'HYM=', 'EoE='),
+('GINstzrvZU3f', 'Hw==', '220840109', 1, 'HIY=', 'E4M=', 'HYM=', 'EoE='),
+('GINstzrvZU3f', 'Hw==', '220840109', 6, 'HIY=', 'E4M=', 'HYM=', 'EoE='),
+('GINstzrvZU3f', 'Hw==', '220840109', 7, 'HIY=', 'E4M=', 'HYM=', 'EoE='),
+('GINstzrvZU3f', 'Hw==', '220840109', 8, 'HIY=', 'E4M=', 'HYM=', 'EoE='),
+('GINstzrvZU3f', 'Hw==', '220840109', 10, 'HIY=', 'E4M=', 'HYM=', 'EoE='),
+('GINstzrvZU3f', 'Hw==', '220840114', 1, 'HIY=', 'E4M=', 'HYM=', 'EoE='),
+('GINstzrvZU3f', 'Hw==', '220840114', 9, 'HIY=', 'E4M=', 'HYM=', 'EoE='),
+('GINstzrvZU3f', 'Hw==', '220840114', 11, 'HIY=', 'E4M=', 'HYM=', 'EoE='),
+('GINstzrvZU3f', 'Hw==', '220840126', 1, 'HIY=', 'E4M=', 'HYM=', 'EoE=');
 
 -- --------------------------------------------------------
 
@@ -131,7 +137,7 @@ CREATE TABLE `tblmahasiswa` (
   `tempat_lahir` varchar(15) NOT NULL,
   `tanggal_lahir` varchar(20) NOT NULL,
   `asal_sma` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tblmahasiswa`
@@ -165,7 +171,7 @@ CREATE TABLE `tblmatakuliah` (
   `nama_mk` varchar(25) NOT NULL,
   `sks` varchar(20) NOT NULL,
   `prasyarat` varchar(35) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tblmatakuliah`
@@ -198,7 +204,7 @@ CREATE TABLE `users` (
   `role` enum('mahasiswa','dosen','','') NOT NULL,
   `username` varchar(50) NOT NULL,
   `password` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
@@ -211,6 +217,12 @@ INSERT INTO `users` (`role`, `username`, `password`) VALUES
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `dosen`
+--
+ALTER TABLE `dosen`
+  ADD PRIMARY KEY (`nidn`);
 
 --
 -- Indexes for table `krs`
